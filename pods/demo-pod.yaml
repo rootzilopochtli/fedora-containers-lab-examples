@@ -1,0 +1,44 @@
+# Generation of Kubernetes YAML is still under development!
+#
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-3.1.0
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2021-04-20T19:57:33Z"
+  labels:
+    app: demo
+  name: demo-pod
+spec:
+  containers:
+  - command:
+    - nginx
+    - -g
+    - daemon off;
+    env:
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    - name: TERM
+      value: xterm
+    - name: container
+      value: podman
+    image: quay.io/libpod/alpine_nginx:latest
+    name: demo-container
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: true
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+      seLinuxOptions: 
+        level: s0:c13,c7
+    tty: true
+    workingDir: /
+  dnsConfig: {}
+status: {}
+

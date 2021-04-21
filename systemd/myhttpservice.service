@@ -1,0 +1,18 @@
+[Unit]
+Description=Just a http service with Podman Container
+
+[Service]
+Type=simple
+TimeoutStartSec=30s
+ExecStartPre=-/usr/bin/podman rm "myhttpservice"
+
+ExecStart=/usr/bin/podman run --name myhttpservice -p 8080:8080 -v /opt/var/www/html:/var/www/html:Z --health-cmd 'CMD-SHELL curl http://localhost:8080 || exit 1' --health-interval=0 registry.fedoraproject.org/f29/httpd
+
+ExecReload=-/usr/bin/podman stop "myhttpservice"
+ExecReload=-/usr/bin/podman rm "myhttpservice"
+ExecStop=-/usr/bin/podman stop "myhttpservice"
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
